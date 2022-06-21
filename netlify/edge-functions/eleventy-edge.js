@@ -13,9 +13,18 @@ export default async (request, context) => {
     });
 
     edge.config((eleventyConfig) => {
-      // Add some custom Edge-specific configuration
-      // e.g. Fancier json output
-      // eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
+      eleventyConfig.addGlobalData("searchResults", async () => {
+        const requestUrl = new URL(request.url);
+
+        const searchUrl =
+          requestUrl.origin +
+          "/search-data.json?" +
+          requestUrl.searchParams.toString();
+
+        const searchResults = await fetch(searchUrl).then((r) => r.json());
+
+        return searchResults;
+      });
     });
 
     return await edge.handleResponse();
