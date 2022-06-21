@@ -4,7 +4,8 @@
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
-    "start": "npx @11ty/eleventy --watch --serve"
+    "start": "npx @11ty/eleventy --watch --serve",
+    "build": "npx @11ty/eleventy"
   },
   "keywords": [],
   "author": "",
