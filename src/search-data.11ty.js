@@ -9,7 +9,7 @@ class SearchDataJson {
     const searchData = data.collections.books.map((book) => ({
       title: book.data.title,
       url: book.url,
-      content: book.url.content,
+      content: book.templateContent,
     }));
 
     return JSON.stringify(searchData);
