@@ -1,0 +1,12 @@
+node_modules
+.cache
+package-lock.json
+_site
+test_output
+.env
+.DS_Store
+# Local Netlify folder
+.netlify
+
+# Eleventy Edge Build Data files
+netlify/edge-functions/_generated
