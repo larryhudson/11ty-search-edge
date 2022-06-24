@@ -25,9 +25,11 @@ export default async (request, context) => {
         console.log(searchUrl);
 
         try {
-          const searchResults = await fetch(searchUrl).then((r) => r.json());
+          const searchResultsResponse = await fetch(searchUrl);
+          const responseText = await searchResultsResponse.text();
+          console.log(responseText);
 
-          return searchResults;
+          return responseText;
         } catch (error) {
           console.log(error);
         }
