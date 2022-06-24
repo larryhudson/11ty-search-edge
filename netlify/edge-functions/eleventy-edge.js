@@ -22,9 +22,15 @@ export default async (request, context) => {
           "/search-data.json?" +
           requestUrl.searchParams.toString();
 
-        const searchResults = await fetch(searchUrl).then((r) => r.json());
+        console.log(searchUrl);
 
-        return searchResults;
+        try {
+          const searchResults = await fetch(searchUrl).then((r) => r.json());
+
+          return searchResults;
+        } catch (error) {
+          console.log(error);
+        }
       });
     });
 
