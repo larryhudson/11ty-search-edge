@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
   </head>
   <body>
-    {% edge %} {% set searchQuery = eleventy.edge.query.query %}
+    {% set searchData = collections.books | arrayToSearchData %}
+    {% edge "njk", searchData %}
+    {% set searchQuery = eleventy.edge.query.query %}
+    {% set searchResults = _ | filterArrayByQuery(searchQuery) %}
     <form method="get">
       <label for="search">Search</label>
-      <input type="search" name="query" id="search" value="{{ searchQuery }}" />
+      <input type="search" name="query" id="search" value="{{ searchQuery }}"/>
       <button>Search</button>
     </form>
-
     {% if not searchQuery %}
-    <p>Use the search form above to search.</p>
+      <p>Use the search form above to search.</p>
     {% else %}
-    <h2>You searched for {{ searchQuery }}</h2>
-    {% if searchResults.length > 0 %}
-    <ul>
-      {% for result in searchResults %}
-      <li>
-        <a href="{{ result.url }}">{{ result.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>No search results.</p>
-    <p>{% endif %} {% endif %} {% endedge %}</p>
+      <h2>You searched for {{ searchQuery }}</h2>
+      {% if searchResults.length > 0 %}
+        <ul>
+          {% for result in searchResults %}
+            <li>
+              <a href="{{ result.url }}">{{ result.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No search results.</p>
+        <p>
+        {% endif %}
+      {% endif %}
+      {% endedge %}</p>
   </body>
 </html>
