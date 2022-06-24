@@ -1,6 +1,8 @@
 // note: using direct CDN URL here because the eleventy:edge import alias wasn't working for me
 import { EleventyEdge } from "https://cdn.11ty.dev/edge@1.0.1/eleventy-edge.js";
 import precompiledAppData from "./_generated/eleventy-edge-app-data.js";
+import searchData from "./_generated/search-data.json" assert { type: "json" };
+import filterArrayByQuery from "./utils/filter-json.js";
 
 export default async (request, context) => {
   try {
@@ -15,24 +17,10 @@ export default async (request, context) => {
 
     edge.config((eleventyConfig) => {
       eleventyConfig.addGlobalData("searchResults", async () => {
-        const requestUrl = new URL(request.url);
+        const searchQuery = new URL(request.url).searchParams.get("query");
+        const searchResults = filterArrayByQuery(searchData, searchQuery);
 
-        const searchUrl =
-          requestUrl.origin +
-          "/search-data.json?" +
-          requestUrl.searchParams.toString();
-
-        console.log(searchUrl);
-
-        try {
-          const searchResultsResponse = await fetch(searchUrl);
-          const responseText = await searchResultsResponse.text();
-          console.log(responseText);
-
-          return responseText;
-        } catch (error) {
-          console.log(error);
-        }
+        return searchResults;
       });
     });
 
